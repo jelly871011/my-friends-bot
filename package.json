@@ -1,0 +1,29 @@
+{
+  "name": "my-friends-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jelly871011/my-friends-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jelly871011/my-friends-bot/issues"
+  },
+  "homepage": "https://github.com/jelly871011/my-friends-bot#readme",
+  "dependencies": {
+    "@line/bot-sdk": "^10.0.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
