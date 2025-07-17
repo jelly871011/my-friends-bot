@@ -23,28 +23,31 @@
 ### 安裝步驟
 
 1. 下載專案
-   ```bash
-   git clone https://github.com/jelly871011/my-friends-bot.git
-   cd my-friends-bot
-   ```
+
+    ```bash
+    git clone https://github.com/jelly871011/my-friends-bot.git
+    cd my-friends-bot
+    ```
 
 2. 安裝依賴
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 3. 設定環境變數
    複製 `.env.example` 並重新命名為 `.env`，然後填入您的設定：
-   ```env
-   PORT=3000
-   LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
-   LINE_CHANNEL_SECRET=your_channel_secret
-   ```
+
+    ```env
+     PORT=3000
+     LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
+     LINE_CHANNEL_SECRET=your_channel_secret
+    ```
 
 4. 啟動開發伺服器
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 ## 使用說明
 
