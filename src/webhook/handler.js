@@ -1,4 +1,4 @@
-const { client } = require('../config/lineClient');
+import { client } from '../config/lineClient.js';
 
 const handleTextMessage = async (event) => {
     const { replyToken, message } = event;
@@ -42,5 +42,4 @@ const handleEvent = async (event) => {
     }
 };
 
-module.exports = { handleEvent };
-    
+export { handleEvent };

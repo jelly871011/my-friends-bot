@@ -1,8 +1,7 @@
-const express = require('express');
-const { handleEvent } = require('./webhook/handler');
-const { config, client, middleware } = require('./config/lineClient');
-
-require('dotenv').config();
+import 'dotenv/config';
+import express from 'express';
+import { handleEvent } from './webhook/handler.js';
+import { config, client, middleware } from './config/lineClient.js';
 
 const app = express();
 
