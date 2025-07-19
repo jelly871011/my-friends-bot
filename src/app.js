@@ -5,9 +5,6 @@ import { config, client, middleware } from './config/lineClient.js';
 
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 app.post('/webhook', middleware(config), (req, res) => {
     Promise
         .all(req.body.events.map(handleEvent))
@@ -16,6 +13,9 @@ app.post('/webhook', middleware(config), (req, res) => {
             res.status(500).end();
         });
 });
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 3000;
 
