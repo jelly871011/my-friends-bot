@@ -1,39 +1,42 @@
 import { client } from '../config/lineClient.js';
+import { getRandomResponse, keywordResponse } from '../uitls/responses.js';
 
-const handleTextMessage = async (event) => {
-    const { replyToken, message } = event;
-
+const handleReplyMessage = async (replyToken, text) => {
     try {
         await client.replyMessage(replyToken, {
             type: 'text',
-            text: `我學你說: ${message.text}`,
+            text,
         });
     } catch (error) {
         return Promise.reject(error);
     }
 };
 
-const handleFollowEvent = async (event) => {
-    const { replyToken, userId } = event;
+const handleMessage = async (event) => {
+    const { message } = event;
+    let replyMessage = null;
 
-    try {
-        await client.pushMessage(userId, {
-            type: 'text',
-            text: '歡迎來到阿卡～～',
-        })
-    } catch (error) {
-        return Promise.reject(error);
+    if (message.type === 'text') {
+        const response = keywordResponse(message.text);
+
+        if (response) {
+            replyMessage = response;
+        } else {
+            replyMessage = getRandomResponse();
+        }
     }
+
+    if (replyMessage) {
+        await handleReplyMessage(event.replyToken, replyMessage);
+    }
+
+    return Promise.resolve(null);
 };
 
 const handleEvent = async (event) => {
     try {
         if (event.type === 'message') {
-            return handleTextMessage(event);
-        }
-
-        if (event.type === 'follow') {
-            return handleFollowEvent(event);
+            return handleMessage(event);
         }
 
         return Promise.resolve(null);
