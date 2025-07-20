@@ -44,8 +44,10 @@ const getRandomIndex = (length) => {
     return Math.floor(Math.random() * length);
 }
 
-const getRandomResponse = () => {
-    return generalResponses[getRandomIndex(generalResponses.length)];
+const getRandomResponse = (text = '') => {
+    const response = generalResponses[getRandomIndex(generalResponses.length)];
+
+    return response.replace(/{text}/g, text);
 }
 
 const keywordResponse = (text) => {

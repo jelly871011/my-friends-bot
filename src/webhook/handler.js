@@ -22,7 +22,7 @@ const handleMessage = async (event) => {
         if (response) {
             replyMessage = response;
         } else {
-            replyMessage = getRandomResponse();
+            replyMessage = getRandomResponse(message.text);
         }
     }
 
