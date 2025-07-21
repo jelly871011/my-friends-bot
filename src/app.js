@@ -1,9 +1,12 @@
 import 'dotenv/config';
 import express from 'express';
 import { handleEvent } from './webhook/handler.js';
-import { config, client, middleware } from './config/lineClient.js';
+import { config, middleware } from './config/lineClient.js';
+import connectDB from './config/db.js';
 
 const app = express();
+
+connectDB();
 
 app.post('/webhook', middleware(config), (req, res) => {
     Promise
