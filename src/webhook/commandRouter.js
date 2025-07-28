@@ -1,6 +1,6 @@
 import { parseCommand } from "../utils/commandParser.js";
 import {
-    getAllFriends,
+    getFriends,
     getSingleFriend,
     updateFriendArrayField
 } from '../services/friendService.js';
@@ -43,7 +43,7 @@ const createArrayUpdateHandler = (field, messages) =>
 
 const COMMON_HANDLERS = {
     '查看所有朋友': async () => {
-        const friends = await getAllFriends();
+        const friends = await getFriends();
 
         return formatFriendsList(friends);
     },
