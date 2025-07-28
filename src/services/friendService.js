@@ -1,5 +1,5 @@
 import Friend from "../modules/Friend.js";
-import {  ValidationError, NotFoundError } from "../uitls/errors.js";
+import {  ValidationError, NotFoundError } from "../utils/errors.js";
 
 export const getFriends = async () => {
     return await Friend.find();
@@ -21,7 +21,7 @@ export const getSingleFriend = async (name) => {
     return friend;
 };
 
-export const updateFriendArrayField = async (name, field, next, newItems) => {
+export const updateFriendArrayField = async (name, field, newItems, next) => {
     if (!Array.isArray(newItems)) {
         throw new ValidationError('資料必須為陣列');
     }
