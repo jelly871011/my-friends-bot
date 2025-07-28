@@ -1,5 +1,7 @@
 import { client } from '../config/lineClient.js';
-import { getRandomResponse, keywordResponse } from '../uitls/responses.js';
+import { getRandomResponse, keywordResponse } from '../utils/responses.js';
+import { isCommand } from '../utils/commandParser.js';
+import { handleCommand } from './commandRouter.js';
 
 const handleReplyMessage = async (replyToken, text) => {
     try {
@@ -16,13 +18,24 @@ const handleMessage = async (event) => {
     const { message } = event;
     let replyMessage = null;
 
-    if (message.type === 'text') {
-        const response = keywordResponse(message.text);
+    if (!message) return Promise.resolve(null);
 
-        if (response) {
-            replyMessage = response;
-        } else {
-            replyMessage = getRandomResponse(message.text);
+    if (message.type === 'text') {
+        const { text } = message;
+
+        try {
+            if (isCommand(text)) {
+                replyMessage = await handleCommand(text);
+            } else {
+                const response = keywordResponse(text);
+
+                replyMessage = response
+                    ? response
+                    : getRandomResponse(text);
+            }
+        } catch (error) {
+            console.error('處理訊息時發生錯誤:', error);
+            replyMessage = `發生錯誤：${error.message}`;
         }
     }
 

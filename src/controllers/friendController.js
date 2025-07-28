@@ -1,5 +1,5 @@
-import { AppError, ValidationError } from "../uitls/errors.js";
-import { friendData } from "../uitls/commonData.js";
+import { AppError, ValidationError } from "../utils/errors.js";
+import { friendData } from "../utils/commonData.js";
 import {
     getFriends as getFriendsService,
     getSingleFriend as getSingleFriendService,
@@ -38,7 +38,7 @@ const updateArrayField = (field) => async (req, res, next) => {
             return next(new ValidationError(`請提供要更新的${fieldName}資料`));
         }
 
-        const updatedFriend = await updateFriendArrayField(name, field, next, newItems);
+        const updatedFriend = await updateFriendArrayField(name, field, newItems, next);
 
         res.status(200).json(updatedFriend);
     } catch (error) {
