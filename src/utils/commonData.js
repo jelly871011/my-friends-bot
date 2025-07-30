@@ -55,20 +55,16 @@ const commandAliases = {
     'show': '查看這個朋友',
     's': '查看這個朋友',
     
-    // 新增相關
-    'add': '新增',
-    'new': '新增',
-    
     // 興趣相關
-    'interest': '興趣',
-    'i': '興趣',
-    'hobby': '興趣',
+    'interest': '新增興趣',
+    'i': '新增興趣',
+    'hobby': '新增興趣',
     
     // 口頭禪相關
-    'catchphrase': '口頭禪',
-    'c': '口頭禪',
-    'phrase': '口頭禪',
-    'p': '口頭禪'
+    'catchphrase': '新增口頭禪',
+    'c': '新增口頭禪',
+    'phrase': '新增口頭禪',
+    'p': '新增口頭禪'
 };
 
 export {
