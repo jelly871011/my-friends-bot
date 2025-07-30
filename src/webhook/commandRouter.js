@@ -64,6 +64,15 @@ const COMMON_HANDLERS = {
             return ERROR_MESSAGES.GENERAL.PROCESSING_ERROR;
         }
     },
+    '隨機查看朋友': async () => {
+        const friends = await getFriends();
+
+        if (!friends || !friends.length) return INFO_MESSAGES.FRIEND.LIST_EMPTY;
+
+        const randomFriend = friends[Math.floor(Math.random() * friends.length)];
+
+        return formatFriendsList([randomFriend]);
+    },
     '新增興趣': createArrayUpdateHandler(
         'interests', 
         {
