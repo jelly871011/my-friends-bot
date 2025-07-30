@@ -32,6 +32,10 @@ const friendSchema = new mongoose.Schema({
             message: '至少需要一個口頭禪'
         }
     },
+    birthday: {
+        type: Date,
+        default: null
+    }
 }, { timestamps: true });
 
 const Friend = mongoose.model('Friend', friendSchema);

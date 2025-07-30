@@ -49,7 +49,13 @@ export const INFO_MESSAGES = {
         LIST_EMPTY: '目前沒有朋友資料',
         DETAIL_TITLE: (name) => `👤 ${name} 的資料：`,
         DESCRIPTION: (desc) => `- 介紹：${desc || '無'}`,
-        BIRTHDAY: (date) => `- 生日：${date || '未設定'}`,
+        BIRTHDAY: (date) => {
+            if (!date) return '- 生日：未設定';
+
+            const d = new Date(date);
+
+            return `- 生日：${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+        },
         INTERESTS: (interests) => `- 興趣：${interests?.join('、') || '無'}`,
         CATCHPHRASES: (phrases) => `- 口頭禪：${phrases?.join('、') || '無'}`
     }
