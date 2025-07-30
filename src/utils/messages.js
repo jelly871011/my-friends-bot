@@ -43,20 +43,20 @@ export const INFO_MESSAGES = {
         TITLE: '📝 可用指令：',
         COMMAND_FORMAT: '指令格式：',
         EXAMPLE: '範例：',
-        HINT: '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, i=興趣, c=口頭禪'
+        HINT: '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪'
     },
     FRIEND: {
         LIST_EMPTY: '目前沒有朋友資料',
         DETAIL_TITLE: (name) => `👤 ${name} 的資料：`,
-        DESCRIPTION: (desc) => `- 介紹：${desc || '無'}`,
+        DESCRIPTION: (desc) => `📝 介紹：${desc || '無'}`,
         BIRTHDAY: (date) => {
-            if (!date) return '- 生日：未設定';
+            if (!date) return '🎂 生日：未設定';
 
             const d = new Date(date);
 
-            return `- 生日：${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+            return `🎂 生日：${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
         },
-        INTERESTS: (interests) => `- 興趣：${interests?.join('、') || '無'}`,
-        CATCHPHRASES: (phrases) => `- 口頭禪：${phrases?.join('、') || '無'}`
+        INTERESTS: (interests) => `🎯 興趣：${interests?.join('、') || '無'}`,
+        CATCHPHRASES: (phrases) => `🗣️ 口頭禪：${phrases?.join('、') || '無'}`
     }
 };
