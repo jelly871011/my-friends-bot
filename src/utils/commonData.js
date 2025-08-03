@@ -10,9 +10,11 @@ const commands = [
     '隨機查看朋友',
     '新增興趣',
     '新增口頭禪',
+    '今天生日的朋友',
+    '生日倒數'
 ];
 
-const hit = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪';
+const hit = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪, b=今天生日的朋友, bc=生日倒數';
 
 const help = [
     {
@@ -39,10 +41,20 @@ const help = [
         command: '[名字] 新增口頭禪 [口頭禪1, 口頭禪2, ...]',
         description: '為朋友新增口頭禪（多個請用逗號分隔）',
         example: '小明 新增口頭禪 早安,晚安'
+    },
+    {
+        command: '今天生日的朋友',
+        description: '查看今天生日的朋友',
+        example: '今天生日的朋友'
+    },
+    {
+        command: '生日倒數',
+        description: '查看生日倒數',
+        example: '生日倒數'
     }
 ];
 
-const noNameCommands = ['查看所有朋友', '隨機查看朋友'];
+const noNameCommands = ['查看所有朋友', '隨機查看朋友', '今天生日的朋友', '生日倒數'];
 
 const commandAliases = {
     // 幫助指令
@@ -74,7 +86,18 @@ const commandAliases = {
     'catchphrase': '新增口頭禪',
     'c': '新增口頭禪',
     'phrase': '新增口頭禪',
-    'p': '新增口頭禪'
+    'p': '新增口頭禪',
+
+    // 生日相關
+    'birthday': '今天生日的朋友',
+    'b': '今天生日的朋友',
+    'bd': '今天生日的朋友',
+    'bdy': '今天生日的朋友',
+    'bdy': '今天生日的朋友',
+    'birthdayCountdown': '生日倒數',
+    'bc': '生日倒數',
+    'bdy': '生日倒數',
+    'bdy': '生日倒數',
 };
 
 export {

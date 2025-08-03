@@ -8,6 +8,10 @@ import {
     ERROR_MESSAGES, 
     INFO_MESSAGES 
 } from '../utils/messages.js';
+import {
+    getBirthdayFriendsToday,
+    getBirthdayCountdown 
+} from "../services/birthdayService.js";
 
 const formatFriendsList = (friends) => {
     if (!friends || !friends.length) return INFO_MESSAGES.FRIEND.LIST_EMPTY;
@@ -22,7 +26,6 @@ const formatFriendsList = (friends) => {
         ].join('\n'))
         .join('\n\n');
 };
-
 
 const createArrayUpdateHandler = (field, messages) => 
     async (name, args) => {
@@ -82,7 +85,6 @@ const COMMON_HANDLERS = {
             ADD_FAILED: ERROR_MESSAGES.INTEREST.ADD_FAILED
         }
     ),
-    
     '新增口頭禪': createArrayUpdateHandler(
         'catchphrases',
         {
@@ -91,7 +93,53 @@ const COMMON_HANDLERS = {
             ADD_SUCCESS: ERROR_MESSAGES.CATCHPHRASE.ADD_SUCCESS,
             ADD_FAILED: ERROR_MESSAGES.CATCHPHRASE.ADD_FAILED
         }
-    )
+    ),
+    '今天生日的朋友': async () => {
+        try {
+            const friends = await getBirthdayFriendsToday();
+
+            if (!friends?.length) return INFO_MESSAGES.BIRTHDAY.NO_BIRTHDAY_TODAY;
+
+            return friends.map((friend) => 
+                INFO_MESSAGES.BIRTHDAY.TODAY(friend.name)
+            ).join('\n');
+        } catch (error) {
+            console.error('處理今天生日的朋友時出錯:', error);
+
+            return ERROR_MESSAGES.BIRTHDAY.FETCH_ERROR;
+        }
+    },
+    '生日倒數': async () => {
+        try {
+            const upcomingBirthdays = await getBirthdayCountdown();
+
+            if (!upcomingBirthdays?.length) {
+                return INFO_MESSAGES.BIRTHDAY.NO_UPCOMING;
+            }
+            
+            const [nextBirthday, ...rest] = upcomingBirthdays;
+            const top5 = [nextBirthday, ...rest.slice(0, 4)];
+
+            return [
+                INFO_MESSAGES.BIRTHDAY.UPCOMING_TITLE,
+                INFO_MESSAGES.BIRTHDAY.NEXT_BIRTHDAY(
+                    nextBirthday.name,
+                    nextBirthday.nextBirthday
+                ),
+                ...top5.map((friend) => 
+                    INFO_MESSAGES.BIRTHDAY.COUNTDOWN(
+                        friend.name,
+                        friend.daysUntil
+                    )
+                ),
+                INFO_MESSAGES.BIRTHDAY.UPCOMING_COUNT(top5.length)
+            ].join('\n');
+        } catch (error) {
+            console.error('處理生日倒數時出錯:', error);
+
+            return ERROR_MESSAGES.BIRTHDAY.COUNTDOWN_ERROR;
+        }
+    }
 };
 
 export const handleCommand = async (text) => {
