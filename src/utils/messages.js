@@ -1,3 +1,5 @@
+import { COMMAND_ALIASES_HINT } from "./commonData.js";
+
 export const ERROR_MESSAGES = {
     // 通用錯誤
     GENERAL: {
@@ -48,7 +50,7 @@ export const INFO_MESSAGES = {
         TITLE: '📝 可用指令：',
         COMMAND_FORMAT: '指令格式：',
         EXAMPLE: '範例：',
-        HINT: '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪'
+        HINT: COMMAND_ALIASES_HINT
     },
     FRIEND: {
         LIST_EMPTY: '目前沒有朋友資料',
@@ -65,8 +67,8 @@ export const INFO_MESSAGES = {
         CATCHPHRASES: (phrases) => `🗣️ 口頭禪：${phrases?.join('、') || '無'}`
     },
     BIRTHDAY: {
-        UPCOMING_TITLE: '🎂 即將到來的生日：',
         TODAY: (name) => `🎉 今天是 ${name} 的生日！生日快樂！`,
+        UPCOMING_TITLE: '🎂 即將到來的生日：',
         COUNTDOWN: (name, days) => `⏳ 距離 ${name} 的生日還有 ${days} 天`,
         NEXT_BIRTHDAY: (name, date) => `📅 下個生日的人是${name}，日期： ${date}`,
         UPCOMING_COUNT: (count) => `\n共 ${count} 個即將到來的生日`,

@@ -14,7 +14,7 @@ const commands = [
     '生日倒數'
 ];
 
-const hit = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪, b=今天生日的朋友, bc=生日倒數';
+const COMMAND_ALIASES_HINT = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪, b=今天生日的朋友, bc=生日倒數';
 
 const help = [
     {
@@ -103,7 +103,7 @@ const commandAliases = {
 export {
     friendData,
     commands,
-    hit,
+    COMMAND_ALIASES_HINT,
     help,
     noNameCommands,
     commandAliases,
