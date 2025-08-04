@@ -14,7 +14,8 @@ const commands = [
     '生日倒數'
 ];
 
-const COMMAND_ALIASES_HINT = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪, b=今天生日的朋友, bc=生日倒數';
+const COMMAND_ALIASES_HINT = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪'
+    + 'b=今天生日的朋友, bc=生日倒數';
 
 const help = [
     {
@@ -54,7 +55,7 @@ const help = [
     }
 ];
 
-const noNameCommands = ['查看所有朋友', '隨機查看朋友', '今天生日的朋友', '生日倒數'];
+const noNameCommands = ['查看所有朋友', '隨機查看朋友', '今天生日的朋友', '生日倒數', '幫助'];
 
 const commandAliases = {
     // 幫助指令
@@ -96,8 +97,7 @@ const commandAliases = {
     'bdy': '今天生日的朋友',
     'birthdayCountdown': '生日倒數',
     'bc': '生日倒數',
-    'bdy': '生日倒數',
-    'bdy': '生日倒數',
+    'bdy': '生日倒數'
 };
 
 export {

@@ -61,11 +61,7 @@ export const parseCommand = (text) => {
         return { message: ERROR_MESSAGES.COMMAND.NOT_SUPPORTED(action) };
     }
 
-    if (normalizedAction === '幫助') {
-        return { message: getHelpMessage() };
-    }
-
-    if (noNameCommands.includes(normalizedAction)) {
+    if (noNameCommands.includes(normalizedAction) ) {
         return { action: normalizedAction };
     }
 
