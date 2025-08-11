@@ -10,6 +10,8 @@ const app = express();
 
 connectDB();
 
+app.use(express.static('public'));
+
 app.post('/webhook', middleware(config), async (req, res, next) => {
     try {
         await Promise.all(req.body.events.map(handleEvent));
