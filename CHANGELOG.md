@@ -14,3 +14,8 @@
 ## [1.1.1] - 2025-08-03
 ### Fixed
 - 修正 info message hint
+
+## [1.2.0] - 2025-08-12
+### Added
+- 新增flex message模板
+- 新增靜態圖片
