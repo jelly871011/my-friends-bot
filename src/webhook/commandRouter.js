@@ -12,6 +12,12 @@ import {
     getBirthdayFriendsToday,
     getBirthdayCountdown 
 } from "../services/birthdayService.js";
+import { 
+    friendInfoCard,
+    friendsListCarousel,
+    birthdayCountdownCard,
+    helpCard
+} from "../utils/flexTemplates.js";
 
 const formatFriendsList = (friends) => {
     if (!friends || !friends.length) return INFO_MESSAGES.FRIEND.LIST_EMPTY;
@@ -25,6 +31,17 @@ const formatFriendsList = (friends) => {
             INFO_MESSAGES.FRIEND.CATCHPHRASES(friend.catchphrases)
         ].join('\n'))
         .join('\n\n');
+};
+
+const formatFriendsToCarousel = (friends) => {
+    if (!friends || !friends.length) {
+        return {
+            type: 'text',
+            text: INFO_MESSAGES.FRIEND.LIST_EMPTY
+        };
+    }
+    
+    return friendsListCarousel(friends);
 };
 
 const createArrayUpdateHandler = (field, messages) => 
@@ -46,35 +63,70 @@ const createArrayUpdateHandler = (field, messages) =>
 
 const COMMON_HANDLERS = {
     '查看所有朋友': async () => {
-        const friends = await getFriends();
+        try {
+            const friends = await getFriends();
 
-        return formatFriendsList(friends);
+            if (!friends) return;
+
+            return friendsListCarousel(friends);
+        } catch (err) {
+            console.error('查詢朋友時發生錯誤:', error);
+
+            return {
+                type: 'text',
+                text: ERROR_MESSAGES.GENERAL.PROCESSING_ERROR
+            };
+        }
     },
     '查看這個朋友': async (name) => {
-        if (!name) return ERROR_MESSAGES.FRIEND.NAME_REQUIRED;
+        if (!name) return {
+            type: 'text',
+            text: ERROR_MESSAGES.FRIEND.NAME_REQUIRED
+        }
         
         try {
             const friend = await getSingleFriend(name);
 
-            return formatFriendsList([friend]);
+            if (!friend) return;
+
+            return {
+                type: 'flex',
+                altText: `${friend.name} 的資料`,
+                contents: friendInfoCard(friend)
+            };
         } catch (error) {
             if (error.name === 'NotFoundError') {
-                return ERROR_MESSAGES.FRIEND.NOT_FOUND;
+                return {
+                    type: 'text',
+                    text: ERROR_MESSAGES.FRIEND.NOT_FOUND
+                };
             }
 
             console.error('查詢朋友時發生錯誤:', error);
 
-            return ERROR_MESSAGES.GENERAL.PROCESSING_ERROR;
+            return {
+                type: 'text',
+                text: ERROR_MESSAGES.GENERAL.PROCESSING_ERROR
+            };
         }
     },
     '隨機查看朋友': async () => {
         const friends = await getFriends();
 
-        if (!friends || !friends.length) return INFO_MESSAGES.FRIEND.LIST_EMPTY;
+        if (!friends || !friends.length) {
+            return {
+                type: 'text',
+                text: INFO_MESSAGES.FRIEND.LIST_EMPTY
+            };
+        }
 
         const randomFriend = friends[Math.floor(Math.random() * friends.length)];
 
-        return formatFriendsList([randomFriend]);
+        return {
+            type: 'flex',
+            altText: `${randomFriend.name} 的資料`,
+            contents: friendInfoCard(randomFriend)
+        };
     },
     '新增興趣': createArrayUpdateHandler(
         'interests', 
@@ -114,30 +166,42 @@ const COMMON_HANDLERS = {
             const upcomingBirthdays = await getBirthdayCountdown();
 
             if (!upcomingBirthdays?.length) {
-                return INFO_MESSAGES.BIRTHDAY.NO_UPCOMING;
+                return {
+                    type: 'text',
+                    text: INFO_MESSAGES.BIRTHDAY.NO_UPCOMING
+                };
             }
             
             const [nextBirthday, ...rest] = upcomingBirthdays;
             const top5 = [nextBirthday, ...rest.slice(0, 4)];
 
-            return [
-                INFO_MESSAGES.BIRTHDAY.UPCOMING_TITLE,
-                INFO_MESSAGES.BIRTHDAY.NEXT_BIRTHDAY(
-                    nextBirthday.name,
-                    nextBirthday.nextBirthday
-                ),
-                ...top5.map((friend) => 
-                    INFO_MESSAGES.BIRTHDAY.COUNTDOWN(
-                        friend.name,
-                        friend.daysUntil
-                    )
-                ),
-                INFO_MESSAGES.BIRTHDAY.UPCOMING_COUNT(top5.length)
-            ].join('\n');
+            return {
+                type: 'flex',
+                altText: `生日倒數`,
+                contents: birthdayCountdownCard(top5)
+            };
+
+            // return [
+            //     INFO_MESSAGES.BIRTHDAY.UPCOMING_TITLE,
+            //     INFO_MESSAGES.BIRTHDAY.NEXT_BIRTHDAY(
+            //         nextBirthday.name,
+            //         nextBirthday.nextBirthday
+            //     ),
+            //     ...top5.map((friend) => 
+            //         INFO_MESSAGES.BIRTHDAY.COUNTDOWN(
+            //             friend.name,
+            //             friend.daysUntil
+            //         )
+            //     ),
+            //     INFO_MESSAGES.BIRTHDAY.UPCOMING_COUNT(top5.length)
+            // ].join('\n');
         } catch (error) {
             console.error('處理生日倒數時出錯:', error);
 
-            return ERROR_MESSAGES.BIRTHDAY.COUNTDOWN_ERROR;
+            return {
+                type: 'text',
+                text: ERROR_MESSAGES.BIRTHDAY.COUNTDOWN_ERROR
+            };
         }
     }
 };
@@ -147,7 +211,7 @@ export const handleCommand = async (text) => {
         const command = parseCommand(text);
 
         if (command.action === '幫助') {
-            return command.message;
+            return helpCard();
         }
 
         if (command.message) {
