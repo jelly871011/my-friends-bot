@@ -1,13 +1,13 @@
 // 朋友資訊卡片模板
 export const generateFriendBubble = (friend) => ({
     type: 'bubble',
-    ...(friend.imageUrl ? {
+    ...(friend.profileImageName ? {
         hero: {
             type: 'image',
             size: 'full',
             aspectRatio: '1:1',
             aspectMode: 'cover',
-            url: friend.imageUrl
+            url: `https://my-friends-bot.zeabur.app/images/${friend.profileImageName}.jpg`
         }
     } : {}),
     body: {
