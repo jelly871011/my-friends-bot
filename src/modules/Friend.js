@@ -35,6 +35,10 @@ const friendSchema = new mongoose.Schema({
     birthday: {
         type: Date,
         default: null
+    },
+    profileImageName: {
+        type: String,
+        default: null
     }
 }, { timestamps: true });
 
