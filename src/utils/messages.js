@@ -41,9 +41,12 @@ export const ERROR_MESSAGES = {
     // 生日相關
     BIRTHDAY: {
         FETCH_ERROR: '獲取生日資料時發生錯誤',
-        COUNTDOWN_ERROR: '獲取生日倒數時發生錯誤'
+        COUNTDOWN_ERROR: '獲取生日倒數時發生錯誤',
+        DATE_FORMAT_ERROR: '日期格式錯誤',
     }
 };
+
+export const NOT_SET = '未設定';
 
 export const INFO_MESSAGES = {
     HELP: {

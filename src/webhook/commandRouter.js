@@ -110,7 +110,7 @@ const COMMON_HANDLERS = {
             };
         }
     },
-    '隨機查看朋友': async () => {
+    '查看隨機朋友': async () => {
         const friends = await getFriends();
 
         if (!friends || !friends.length) {
@@ -172,29 +172,11 @@ const COMMON_HANDLERS = {
                 };
             }
             
-            const [nextBirthday, ...rest] = upcomingBirthdays;
-            const top5 = [nextBirthday, ...rest.slice(0, 4)];
-
             return {
                 type: 'flex',
                 altText: `生日倒數`,
-                contents: birthdayCountdownCard(top5)
+                contents: birthdayCountdownCard(upcomingBirthdays)
             };
-
-            // return [
-            //     INFO_MESSAGES.BIRTHDAY.UPCOMING_TITLE,
-            //     INFO_MESSAGES.BIRTHDAY.NEXT_BIRTHDAY(
-            //         nextBirthday.name,
-            //         nextBirthday.nextBirthday
-            //     ),
-            //     ...top5.map((friend) => 
-            //         INFO_MESSAGES.BIRTHDAY.COUNTDOWN(
-            //             friend.name,
-            //             friend.daysUntil
-            //         )
-            //     ),
-            //     INFO_MESSAGES.BIRTHDAY.UPCOMING_COUNT(top5.length)
-            // ].join('\n');
         } catch (error) {
             console.error('處理生日倒數時出錯:', error);
 
