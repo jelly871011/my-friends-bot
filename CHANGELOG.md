@@ -19,3 +19,7 @@
 ### Added
 - 新增flex message模板
 - 新增靜態圖片
+
+## [1.2.1] - 2025-08-12
+### Fixed
+- 修正profileImageName未定義導致圖片顯示失敗
