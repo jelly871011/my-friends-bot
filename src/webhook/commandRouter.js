@@ -70,7 +70,7 @@ const COMMON_HANDLERS = {
 
             return friendsListCarousel(friends);
         } catch (err) {
-            console.error('查詢朋友時發生錯誤:', error);
+            console.error('查詢朋友時發生錯誤:', err);
 
             return {
                 type: 'text',
@@ -206,7 +206,11 @@ export const handleCommand = async (text) => {
             return ERROR_MESSAGES.COMMAND.NOT_SUPPORTED(command.action);
         }
 
-        return await handler(command.name, command.args || []);
+        const result = await handler(command.name, command.args || []);
+
+        return typeof result === 'string' 
+            ? { type: 'text', text: result }
+            : result;
     } catch (error) {
         console.error('處理指令時發生錯誤:', error);
 
