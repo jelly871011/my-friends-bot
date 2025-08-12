@@ -28,3 +28,9 @@
 ### Fixed
 - 修正birthday countdown error
 - 重新命名birthdayCountdown command
+
+## [1.3.0] - 2025-08-13
+### Added
+- 新增postback event type
+- 新增friendsListCarousel pagination function
+- 更改friendsListCarousel style
