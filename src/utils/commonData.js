@@ -7,14 +7,14 @@ const commands = [
     '幫助',
     '查看所有朋友',
     '查看這個朋友',
-    '隨機查看朋友',
+    '查看隨機朋友',
     '新增興趣',
     '新增口頭禪',
     '今天生日的朋友',
     '生日倒數'
 ];
 
-const COMMAND_ALIASES_HINT = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=隨機查看朋友, i=興趣, c=口頭禪'
+const COMMAND_ALIASES_HINT = '可以使用英文縮寫，例如：h=幫助, ls=查看所有朋友, v=查看這個朋友, r=查看隨機朋友, i=興趣, c=口頭禪'
     + 'b=今天生日的朋友, bc=生日倒數';
 
 const help = [
@@ -29,9 +29,9 @@ const help = [
         example: '小明 查看這個朋友'
     },
     {
-        command: '隨機查看朋友',
+        command: '查看隨機朋友',
         description: '隨機查看一位朋友的詳細資料',
-        example: '隨機查看朋友'
+        example: '查看隨機朋友'
     },
     {
         command: '[名字] 新增興趣 [興趣1, 興趣2, ...]',
@@ -55,7 +55,7 @@ const help = [
     }
 ];
 
-const noNameCommands = ['查看所有朋友', '隨機查看朋友', '今天生日的朋友', '生日倒數', '幫助'];
+const noNameCommands = ['查看所有朋友', '查看隨機朋友', '今天生日的朋友', '生日倒數', '幫助'];
 
 const commandAliases = {
     // 幫助指令
@@ -74,9 +74,9 @@ const commandAliases = {
     'show': '查看這個朋友',
     's': '查看這個朋友',
 
-    // 隨機查看朋友
-    'random': '隨機查看朋友',
-    'r': '隨機查看朋友',
+    // 查看隨機朋友
+    'random': '查看隨機朋友',
+    'r': '查看隨機朋友',
     
     // 興趣相關
     'interest': '新增興趣',

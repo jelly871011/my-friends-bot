@@ -47,6 +47,7 @@ export const getBirthdayCountdown = async () => {
                 return {
                     name: friend.name,
                     daysUntil: diffDays,
+                    birthday: friend.birthday,
                     nextBirthday: `${nextBirthday.getFullYear()}年${nextBirthday.getMonth() + 1}月${nextBirthday.getDate()}日`
                 };
             })

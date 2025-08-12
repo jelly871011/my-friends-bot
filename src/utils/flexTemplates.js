@@ -1,3 +1,5 @@
+import { ERROR_MESSAGES, NOT_SET } from "./messages.js";
+
 // 朋友資訊卡片模板
 export const generateFriendBubble = (friend) => ({
     type: 'bubble',
@@ -55,7 +57,7 @@ export const generateFriendBubble = (friend) => ({
                             },
                             {
                                 type: 'text',
-                                text: friend.birthday ? new Date(friend.birthday).toLocaleDateString('zh-TW') : '未設定',
+                                text: friend.birthday ? formatDate(friend.birthday) : NOT_SET,
                                 wrap: true,
                                 color: '#666666',
                                 size: 'sm',
@@ -217,19 +219,28 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
     };
 };
 
-const formatDate = (dateString) => {
-    if (!dateString) return '未設定';
+const formatDate = (dateString, hasYear = true) => {
+    if (!dateString) return NOT_SET;
 
     try {
         const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        
+        if (isNaN(date.getTime())) {
+            return ERROR_MESSAGES.BIRTHDAY.DATE_FORMAT_ERROR;
+        }
 
-        return isNaN(date.getTime())
-            ? '日期格式錯誤'
-            : date.toLocaleDateString('zh-TW');
+        if (!hasYear) {
+            return `${month}/${day}`;
+        }
+
+        return `${year}/${month}/${day}`;
     } catch (error) {
         console.error('日期格式化錯誤:', error);
 
-        return '日期格式錯誤';
+        return ERROR_MESSAGES.BIRTHDAY.DATE_FORMAT_ERROR;
     }
 };
 
@@ -266,9 +277,9 @@ export const birthdayCountdownCard = (friends) => ({
                 },
                 {
                     type: 'text',
-                    text: formatDate(friend.birthday),
+                    text: friend.birthday ? formatDate(friend.birthday, false) : NOT_SET,
                     size: 'sm',
-                    color: '#666666',
+                    color: '#e84d5c',
                     align: 'end',
                     flex: 0
                 },
@@ -282,19 +293,6 @@ export const birthdayCountdownCard = (friends) => ({
                 }
             ]
         }))
-    },
-    footer: {
-        type: 'box',
-        layout: 'vertical',
-        contents: [
-            {
-                type: 'text',
-                text: `共 ${friends.length} 個即將到來的生日`,
-                wrap: true,
-                align: 'center',
-                color: '#666666'
-            }
-        ]
     },
     styles: {
         header: {
@@ -378,7 +376,7 @@ const helpCardFriend = () => ({
             },
             {
                 "type": "text",
-                "text": "• 隨機查看朋友",
+                "text": "• 查看隨機朋友",
                 "size": "sm",
                 "color": "#497ec9",
                 "wrap": true,
@@ -386,7 +384,7 @@ const helpCardFriend = () => ({
             },
             {
                 "type": "text",
-                "text": "範例：隨機查看朋友",
+                "text": "範例：查看隨機朋友",
                 "size": "sm",
                 "color": "#999999",
                 "wrap": true
@@ -506,7 +504,7 @@ const helpCardQuick = () => ({
             },
             {
                 "type": "text",
-                "text": "• r = 隨機查看朋友",
+                "text": "• r = 查看隨機朋友",
                 "size": "sm",
                 "color": "#666666",
                 "wrap": true
