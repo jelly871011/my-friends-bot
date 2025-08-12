@@ -46,6 +46,7 @@ export const generateFriendBubble = (friend) => ({
                     {
                         type: 'box',
                         layout: 'baseline',
+                        margin: 'lg',
                         spacing: 'sm',
                         contents: [
                             {
@@ -170,32 +171,24 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
                 type: 'box',
                 layout: 'horizontal',
                 contents: [
+                    currentPage !== 1 
+                        ? {
+                            type: 'button',
+                            action: {
+                                type: 'postback',
+                                label: '上一頁',
+                                data: `action=page&page=${prevPage}`,
+                                displayText: `查看第 ${prevPage} 頁`
+                            },
+                            style: 'primary',
+                            height: 'sm',
+                            gravity: 'center'
+                        } : null,
                     {
                         type: 'button',
                         action: {
                             type: 'postback',
-                            label: '⬅️ 上一頁',
-                            data: `action=page&page=${prevPage}`,
-                            displayText: `查看第 ${prevPage} 頁`
-                        },
-                        style: 'primary',
-                        height: 'sm',
-                        gravity: 'center'
-                    },
-                    {
-                        type: 'text',
-                        text: `${currentPage} / ${totalPages}`,
-                        align: 'center',
-                        gravity: 'center',
-                        size: 'sm',
-                        color: '#666666',
-                        flex: 1
-                    },
-                    {
-                        type: 'button',
-                        action: {
-                            type: 'postback',
-                            label: '下一頁 ➡️',
+                            label: '下一頁',
                             data: `action=page&page=${nextPage}`,
                             displayText: `查看第 ${nextPage} 頁`
                         },
@@ -203,7 +196,7 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
                         height: 'sm',
                         gravity: 'center'
                     }
-                ],
+                ].filter(Boolean),
             }
         };
         friendBubbles.push(paginationBubble);
