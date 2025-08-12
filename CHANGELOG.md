@@ -23,3 +23,8 @@
 ## [1.2.1] - 2025-08-12
 ### Fixed
 - 修正profileImageName未定義導致圖片顯示失敗
+
+## [1.2.2] - 2025-08-12
+### Fixed
+- 修正birthday countdown error
+- 重新命名birthdayCountdown command
