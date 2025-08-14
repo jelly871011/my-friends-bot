@@ -21,6 +21,10 @@ export const getSingleFriend = async (name) => {
     return friend;
 };
 
+export const getFriendById = async (id) => {
+    return await Friend.findById(id);
+};
+
 export const updateFriendArrayField = async (name, field, newItems, next) => {
     if (!Array.isArray(newItems)) {
         throw new ValidationError('資料必須為陣列');
