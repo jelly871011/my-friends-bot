@@ -38,3 +38,10 @@
 ## [1.3.1] - 2025-08-14
 ### Fixed
 - 修正text message type
+
+## [1.4.0] - 2025-08-15
+### Added
+- 新增session state 並加入 TTL
+- 重構postback 流程
+- 新增pending action
+- 新增add interest/phrase postback 事件
