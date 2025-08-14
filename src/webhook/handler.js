@@ -2,36 +2,69 @@ import { client } from '../config/lineClient.js';
 import { getRandomResponse, keywordResponse } from '../utils/responses.js';
 import { isCommand } from '../utils/commandParser.js';
 import { handleCommand } from './commandRouter.js';
-import { getFriends } from '../services/friendService.js';
-import { friendsListCarousel } from '../utils/flexTemplates.js';
+import { handlePostback as routePostback } from './postbackRouter.js';
+import { getPendingAction, clearPendingAction } from './sessionState.js';
+import { updateFriendArrayField } from '../services/friendService.js';
 import { ERROR_MESSAGES } from '../utils/messages.js';
 
-const parsePostbackData = (data) => {
-    if (!data || typeof data !== 'string') return {};
+const handlePendingAction = async (text, pending, userId) => {
+    if (!pending || !userId) return null;
 
-    const params = new URLSearchParams(data);
-    const obj = {};
+    const items = text
+        .split(/[、，,]/)
+        .map((s) => s.trim())
+        .filter(Boolean);
 
-    for (const [k, v] of params) {
-        obj[k] = obj[k]
-            ? [].concat(obj[k], v)
-            : v;
+    const { action, friendName } = pending;
+    const addInterest = (action === 'add_interest');
+    let replyMessageObject = null;
+
+    if (!items.length) {
+        replyMessageObject = { type: 'text', text: '請直接輸入要新增的內容（可用、或，分隔多個）' };
+    } else {
+        try {
+            const field = addInterest ? 'interests' : 'catchphrases';
+
+            await updateFriendArrayField(friendName, field, items);
+
+            const successMsg = addInterest
+                ? ERROR_MESSAGES.INTEREST.ADD_SUCCESS(friendName, items)
+                : ERROR_MESSAGES.CATCHPHRASE.ADD_SUCCESS(friendName, items);
+
+            replyMessageObject = { type: 'text', text: successMsg };
+        } catch (err) {
+            const failMsg = addInterest
+                ? `${ERROR_MESSAGES.INTEREST.ADD_FAILED}：${err.message || ''}`
+                : `${ERROR_MESSAGES.CATCHPHRASE.ADD_FAILED}：${err.message || ''}`;
+
+            replyMessageObject = { type: 'text', text: failMsg.trim() };
+        } finally {
+            clearPendingAction(userId);
+        }
     }
 
-    return obj;
+    return replyMessageObject;
 };
 
 const handleMessage = async (event) => {
-    const { message } = event;
+    const { message, source } = event;
     let replyMessageObject = null;
 
     if (!message || message.type !== 'text') {
         return Promise.resolve(null);
     }
-    
-    const { text } = message;
 
     try {
+        const { text } = message;
+        const userId = source?.userId || null;
+        const pending = userId
+            ? getPendingAction(userId)
+            : null;
+
+        if (pending && userId) {
+            replyMessageObject = await handlePendingAction(text, pending, userId);
+        }
+
         if (isCommand(text)) {
             replyMessageObject = await handleCommand(text);
         } else {
@@ -65,38 +98,23 @@ const handleMessage = async (event) => {
 };
 
 const handlePostback = async (event) => {
-    const { postback } = event;
+    const { postback, replyToken, source } = event;
 
     if (!postback) return Promise.resolve(null);
 
-    let replyMessageObject = null;
-
     try {
-        const data = typeof postback.data === 'string' ? postback.data : '';
-        const params = parsePostbackData(data);
-        const action = params.action;
+        const replyMessageObject = await routePostback(postback, source);
 
-        if (action === 'page') {
-            const page = Math.max(1, parseInt(params.page || '1', 10) || 1);
-            const friends = await getFriends();
-
-            if (!friends || !friends.length) {
-                replyMessageObject = { type: 'text', text: ERROR_MESSAGES.FRIEND.LIST_EMPTY };
-            } else {
-                replyMessageObject = friendsListCarousel(friends, page);
-            }
+        if (replyMessageObject) {
+            await client.replyMessage(replyToken, replyMessageObject);
         }
     } catch (error) {
         console.error('處理 postback 時發生錯誤:', error);
 
-        replyMessageObject = { type: 'text', text: ERROR_MESSAGES.GENERAL.PROCESSING_ERROR };
-    }
-
-    if (replyMessageObject) {
         try {
-            await client.replyMessage(event.replyToken, replyMessageObject);
-        } catch (error) {
-            console.error('發送 LINE 訊息失敗:', error);
+            await client.replyMessage(replyToken, { type: 'text', text: '處理指令時發生錯誤，請稍後再試' });
+        } catch (sendError) {
+            console.error('發送 LINE 訊息失敗:', sendError);
         }
     }
 
