@@ -34,3 +34,7 @@
 - 新增postback event type
 - 新增friendsListCarousel pagination function
 - 更改friendsListCarousel style
+
+## [1.3.1] - 2025-08-14
+### Fixed
+- 修正text message type
