@@ -5,7 +5,7 @@ import { handleCommand } from './commandRouter.js';
 import { handlePostback as routePostback } from './postbackRouter.js';
 import { getPendingAction, clearPendingAction } from './sessionState.js';
 import { updateFriendArrayField } from '../services/friendService.js';
-import { ERROR_MESSAGES } from '../utils/messages.js';
+import { ERROR_MESSAGES, INFO_MESSAGES } from '../utils/messages.js';
 
 const handlePendingAction = async (text, pending, userId) => {
     if (!pending || !userId) return null;
@@ -28,8 +28,8 @@ const handlePendingAction = async (text, pending, userId) => {
             await updateFriendArrayField(friendName, field, items);
 
             const successMsg = addInterest
-                ? ERROR_MESSAGES.INTEREST.ADD_SUCCESS(friendName, items)
-                : ERROR_MESSAGES.CATCHPHRASE.ADD_SUCCESS(friendName, items);
+                ? INFO_MESSAGES.INTEREST.ADD_SUCCESS(friendName, items)
+                : INFO_MESSAGES.CATCHPHRASE.ADD_SUCCESS(friendName, items);
 
             replyMessageObject = { type: 'text', text: successMsg };
         } catch (err) {
@@ -46,55 +46,57 @@ const handlePendingAction = async (text, pending, userId) => {
     return replyMessageObject;
 };
 
-const handleMessage = async (event) => {
+const handleReply = async (event) => {
     const { message, source } = event;
-    let replyMessageObject = null;
+    const { text } = message;
+    const userId = source?.userId || null;
+    const pending = userId
+        ? getPendingAction(userId)
+        : null;
+
+    if (pending && userId) {
+        return await handlePendingAction(text, pending, userId);
+    } 
+    
+    if (isCommand(text)) {
+        return await handleCommand(text);
+    }
+
+    const responseText = keywordResponse(text) || getRandomResponse(text);
+    
+    return responseText
+        ? { type: 'text', text: responseText }
+        : { type: 'text', text: ERROR_MESSAGES.GENERAL.PROCESSING_ERROR };
+};
+
+const handleMessage = async (event) => {
+    const { message, replyToken } = event;
 
     if (!message || message.type !== 'text') {
         return Promise.resolve(null);
     }
 
     try {
-        const { text } = message;
-        const userId = source?.userId || null;
-        const pending = userId
-            ? getPendingAction(userId)
-            : null;
+        const replyMessageObject = await handleReply(event);
 
-        if (pending && userId) {
-            replyMessageObject = await handlePendingAction(text, pending, userId);
+        if (replyMessageObject) {
+            await client.replyMessage(replyToken, replyMessageObject);
         }
 
-        if (isCommand(text)) {
-            replyMessageObject = await handleCommand(text);
-        } else {
-            const responseText = keywordResponse(text) || getRandomResponse(text);
-            
-            if (responseText) {
-                replyMessageObject = {
-                    type: 'text',
-                    text: responseText,
-                };
-            }
-        }
+        return Promise.resolve(null);
     } catch (error) {
         console.error('處理訊息時發生錯誤:', error);
 
-        replyMessageObject = {
-            type: 'text',
-            text: `發生錯誤：${error.message}`,
-        };
-    }
-
-    if (replyMessageObject) {
         try {
-            await client.replyMessage(event.replyToken, replyMessageObject);
-        } catch (error) {
-            console.error('發送 LINE 訊息失敗:', error);
+            await client.replyMessage(
+                replyToken, { type: 'text', text: `發生錯誤：${error.message}` }
+            );
+        } catch (sendError) {
+            console.error('發送 LINE 訊息失敗:', sendError);
         }
-    }
 
-    return Promise.resolve(null);
+        return Promise.resolve(null);
+    } 
 };
 
 const handlePostback = async (event) => {

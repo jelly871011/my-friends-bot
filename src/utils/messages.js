@@ -18,19 +18,15 @@ export const ERROR_MESSAGES = {
     },
     // 興趣相關
     INTEREST: {
-        ADD_SUCCESS: (name, interests) => `已為 ${name} 新增興趣：${interests.join('、')}`,
         ADD_FAILED: '新增興趣失敗',
         REQUIRED: '請提供興趣',
-        INVALID: '無效的興趣內容',
-        EXAMPLE: (name) => `例如：「${name} 新增興趣 發呆」`
+        INVALID: '無效的興趣內容'
     },
     // 口頭禪相關
     CATCHPHRASE: {
-        ADD_SUCCESS: (name, phrases) => `已為 ${name} 新增口頭禪：${phrases.join('、')}`,
         ADD_FAILED: '新增口頭禪失敗',
         REQUIRED: '請提供口頭禪',
-        INVALID: '無效的口頭禪內容',
-        EXAMPLE: (name) => `例如：「${name} 新增口頭禪 好懶」`
+        INVALID: '無效的口頭禪內容'
     },
     // 指令相關
     COMMAND: {
@@ -68,6 +64,16 @@ export const INFO_MESSAGES = {
         },
         INTERESTS: (interests) => `🎯 興趣：${interests?.join('、') || '無'}`,
         CATCHPHRASES: (phrases) => `🗣️ 口頭禪：${phrases?.join('、') || '無'}`
+    },
+    // 興趣相關（資訊/成功/範例）
+    INTEREST: {
+        ADD_SUCCESS: (name, interests) => `已為 ${name} 新增興趣：${interests.join('、')}`,
+        EXAMPLE: (name) => `例如：「${name} 新增興趣 發呆」`
+    },
+    // 口頭禪相關（資訊/成功/範例）
+    CATCHPHRASE: {
+        ADD_SUCCESS: (name, phrases) => `已為 ${name} 新增口頭禪：${phrases.join('、')}`,
+        EXAMPLE: (name) => `例如：「${name} 新增口頭禪 好懶」`
     },
     BIRTHDAY: {
         TODAY: (name) => `🎉 今天是 ${name} 的生日！生日快樂！`,
