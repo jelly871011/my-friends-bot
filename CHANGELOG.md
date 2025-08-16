@@ -45,3 +45,8 @@
 - 重構postback 流程
 - 新增pending action
 - 新增add interest/phrase postback 事件
+
+## [1.4.1] - 2025-08-17
+### Refactor
+- 重構handleMessage function
+- 整理新增成功 & 範例 message
