@@ -1,10 +1,10 @@
-import { AppError, ValidationError } from "../utils/errors.js";
-import { friendData } from "../utils/commonData.js";
+import { ValidationError } from '../utils/errors.js';
+import { friendData } from '../utils/commonData.js';
 import {
     getFriends as getFriendsService,
     getSingleFriend as getSingleFriendService,
-    updateFriendArrayField
-} from "../services/friendService.js";
+    updateFriendArrayField,
+} from '../services/friendService.js';
 
 export const getFriends = async (req, res, next) => {
     try {
@@ -18,8 +18,8 @@ export const getFriends = async (req, res, next) => {
 
 export const getSingleFriend = async (req, res, next) => {
     try {
-        const { name } = req.params
-        const friend = await getSingleFriendService(name); 
+        const { name } = req.params;
+        const friend = await getSingleFriendService(name);
 
         res.status(200).json(friend);
     } catch (error) {

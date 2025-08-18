@@ -1,18 +1,18 @@
-import Friend from "../modules/Friend.js";
-import {  ValidationError, NotFoundError } from "../utils/errors.js";
+import Friend from '../modules/Friend.js';
+import { ValidationError, NotFoundError } from '../utils/errors.js';
 
 export const getFriends = async () => {
     return await Friend.find();
 };
 
 export const findFriendByName = async (name) => {
-    return await Friend.findOne({  
-        name: new RegExp(`^${name}`, 'i')  
+    return await Friend.findOne({
+        name: new RegExp(`^${name}`, 'i'),
     });
 };
 
 export const getSingleFriend = async (name) => {
-    const friend = await findFriendByName(name); 
+    const friend = await findFriendByName(name);
 
     if (!friend) {
         throw new NotFoundError('Friend');
@@ -25,7 +25,7 @@ export const getFriendById = async (id) => {
     return await Friend.findById(id);
 };
 
-export const updateFriendArrayField = async (name, field, newItems, next) => {
+export const updateFriendArrayField = async (name, field, newItems) => {
     if (!Array.isArray(newItems)) {
         throw new ValidationError('資料必須為陣列');
     }
@@ -39,10 +39,10 @@ export const updateFriendArrayField = async (name, field, newItems, next) => {
     if (!friend) throw new NotFoundError('Friend');
 
     const existingItems = friend[field] || [];
-    const duplicateItems = newItems.filter(item => 
-        existingItems.some(existingItem => 
-            existingItem.trim().toLowerCase() === item.trim().toLowerCase()
-        )
+    const duplicateItems = newItems.filter((item) =>
+        existingItems.some(
+            (existingItem) => existingItem.trim().toLowerCase() === item.trim().toLowerCase(),
+        ),
     );
 
     if (duplicateItems.length) {
@@ -54,6 +54,6 @@ export const updateFriendArrayField = async (name, field, newItems, next) => {
     return await Friend.findOneAndUpdate(
         { _id: friend._id },
         { $set: { [field]: updatedItems } },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
     );
 };

@@ -16,7 +16,7 @@ const handlePendingAction = async (text, pending, userId) => {
         .filter(Boolean);
 
     const { action, friendName } = pending;
-    const addInterest = (action === 'add_interest');
+    const addInterest = action === 'add_interest';
     let replyMessageObject = null;
 
     if (!items.length) {
@@ -50,20 +50,18 @@ const handleReply = async (event) => {
     const { message, source } = event;
     const { text } = message;
     const userId = source?.userId || null;
-    const pending = userId
-        ? getPendingAction(userId)
-        : null;
+    const pending = userId ? getPendingAction(userId) : null;
 
     if (pending && userId) {
         return await handlePendingAction(text, pending, userId);
-    } 
-    
+    }
+
     if (isCommand(text)) {
         return await handleCommand(text);
     }
 
     const responseText = keywordResponse(text) || getRandomResponse(text);
-    
+
     return responseText
         ? { type: 'text', text: responseText }
         : { type: 'text', text: ERROR_MESSAGES.GENERAL.PROCESSING_ERROR };
@@ -88,15 +86,16 @@ const handleMessage = async (event) => {
         console.error('處理訊息時發生錯誤:', error);
 
         try {
-            await client.replyMessage(
-                replyToken, { type: 'text', text: `發生錯誤：${error.message}` }
-            );
+            await client.replyMessage(replyToken, {
+                type: 'text',
+                text: `發生錯誤：${error.message}`,
+            });
         } catch (sendError) {
             console.error('發送 LINE 訊息失敗:', sendError);
         }
 
         return Promise.resolve(null);
-    } 
+    }
 };
 
 const handlePostback = async (event) => {
@@ -114,7 +113,10 @@ const handlePostback = async (event) => {
         console.error('處理 postback 時發生錯誤:', error);
 
         try {
-            await client.replyMessage(replyToken, { type: 'text', text: '處理指令時發生錯誤，請稍後再試' });
+            await client.replyMessage(replyToken, {
+                type: 'text',
+                text: '處理指令時發生錯誤，請稍後再試',
+            });
         } catch (sendError) {
             console.error('發送 LINE 訊息失敗:', sendError);
         }

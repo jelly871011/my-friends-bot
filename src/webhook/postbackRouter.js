@@ -18,7 +18,7 @@ export const parsePostbackData = (data) => {
 
 // 共用：處理新增興趣/口頭禪的 pending 設定與提示訊息
 const handleAddFieldPending = async ({ action, id, userId }) => {
-    const addInterest = (action === 'add_interest');
+    const addInterest = action === 'add_interest';
 
     if (!id) {
         const label = addInterest ? '新增興趣' : '新增口頭禪';
@@ -37,23 +37,23 @@ const handleAddFieldPending = async ({ action, id, userId }) => {
     }
 
     if (userId) {
-        setPendingAction(userId, { 
+        setPendingAction(userId, {
             action,
             friendId: friend._id.toString(),
-            friendName: friend.name
+            friendName: friend.name,
         });
     }
 
     if (addInterest) {
         return {
             type: 'text',
-            text: `你想為「${friend.name}」新增興趣。\n請直接輸入想新增的興趣內容（可用、或，分隔多個）\n範例：睡覺、發呆`
+            text: `你想為「${friend.name}」新增興趣。\n請直接輸入想新增的興趣內容（可用、或，分隔多個）\n範例：睡覺、發呆`,
         };
     }
 
     return {
         type: 'text',
-        text: `你想為「${friend.name}」新增口頭禪。\n請直接輸入想新增的口頭禪（可用、或，分隔多個）\n範例：好懶、蛤？`
+        text: `你想為「${friend.name}」新增口頭禪。\n請直接輸入想新增的口頭禪（可用、或，分隔多個）\n範例：好懶、蛤？`,
     };
 };
 
@@ -61,9 +61,7 @@ export const handlePostback = async (postback, source) => {
     if (!postback) return null;
 
     try {
-        const data = (typeof postback.data === 'string')
-            ? postback.data
-            : '';
+        const data = typeof postback.data === 'string' ? postback.data : '';
 
         const params = parsePostbackData(data);
         const { action } = params;

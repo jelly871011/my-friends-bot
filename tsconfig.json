@@ -1,0 +1,60 @@
+{
+    "compilerOptions": {
+        "noEmitOnError": false,
+        /* 基本選項 */
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": false,
+        "noImplicitAny": false,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        
+        /* 模組解析 */
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        
+        /* 輸出控制 */
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true,
+        "sourceMap": true,
+        "removeComments": false,
+
+        /* 其他 */
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": false,
+        
+        /* 類型檢查 */
+        "strictNullChecks": false,
+        "strictFunctionTypes": false,
+        "strictBindCallApply": false,
+        "noImplicitThis": false,
+        "alwaysStrict": false,
+        
+        /* 模塊解析 */
+        "allowJs": true,
+        "checkJs": false,
+        "noImplicitReturns": false,
+        "noFallthroughCasesInSwitch": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false
+    },
+    "include": ["src/**/*"],
+    "exclude": [
+        "node_modules",
+        "dist",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "**/__tests__/*"
+    ],
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
+    }
+}

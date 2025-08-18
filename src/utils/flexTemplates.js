@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES, NOT_SET } from "./messages.js";
+import { ERROR_MESSAGES, NOT_SET } from './messages.js';
 
 // 朋友資訊卡片模板
 export const generateFriendBubble = (friend) => ({
@@ -10,7 +10,7 @@ export const generateFriendBubble = (friend) => ({
         aspectMode: 'cover',
         url: friend.profileImageName
             ? `${process.env.IMAGE_BASE_URL}/${friend.profileImageName}.jpg`
-            : `${process.env.IMAGE_BASE_URL}/default.jpg`
+            : `${process.env.IMAGE_BASE_URL}/default.jpg`,
     },
     body: {
         type: 'box',
@@ -21,7 +21,7 @@ export const generateFriendBubble = (friend) => ({
                 text: friend.name || '未命名',
                 weight: 'bold',
                 size: 'xl',
-                wrap: true
+                wrap: true,
             },
             {
                 type: 'box',
@@ -39,9 +39,9 @@ export const generateFriendBubble = (friend) => ({
                                 wrap: true,
                                 margin: 'none',
                                 size: 'sm',
-                                color: '#666666'
-                            }
-                        ]
+                                color: '#666666',
+                            },
+                        ],
                     },
                     {
                         type: 'box',
@@ -54,7 +54,7 @@ export const generateFriendBubble = (friend) => ({
                                 text: '🎂 生日',
                                 color: '#aaaaaa',
                                 size: 'sm',
-                                flex: 2
+                                flex: 2,
                             },
                             {
                                 type: 'text',
@@ -62,9 +62,9 @@ export const generateFriendBubble = (friend) => ({
                                 wrap: true,
                                 color: '#666666',
                                 size: 'sm',
-                                flex: 5
-                            }
-                        ]
+                                flex: 5,
+                            },
+                        ],
                     },
                     {
                         type: 'box',
@@ -76,7 +76,7 @@ export const generateFriendBubble = (friend) => ({
                                 text: '🎯 興趣',
                                 color: '#aaaaaa',
                                 size: 'sm',
-                                flex: 2
+                                flex: 2,
                             },
                             {
                                 type: 'text',
@@ -84,9 +84,9 @@ export const generateFriendBubble = (friend) => ({
                                 wrap: true,
                                 color: '#666666',
                                 size: 'sm',
-                                flex: 5
-                            }
-                        ]
+                                flex: 5,
+                            },
+                        ],
                     },
                     {
                         type: 'box',
@@ -98,7 +98,7 @@ export const generateFriendBubble = (friend) => ({
                                 text: '🗣️ 口頭禪',
                                 color: '#aaaaaa',
                                 size: 'sm',
-                                flex: 2
+                                flex: 2,
                             },
                             {
                                 type: 'text',
@@ -106,13 +106,13 @@ export const generateFriendBubble = (friend) => ({
                                 wrap: true,
                                 color: '#666666',
                                 size: 'sm',
-                                flex: 5
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+                                flex: 5,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
     },
     footer: {
         type: 'box',
@@ -127,8 +127,8 @@ export const generateFriendBubble = (friend) => ({
                     type: 'postback',
                     label: '新增興趣',
                     data: `action=add_interest&id=${friend._id}`,
-                    displayText: `我想新增興趣`
-                }
+                    displayText: '我想新增興趣',
+                },
             },
             {
                 type: 'button',
@@ -138,17 +138,17 @@ export const generateFriendBubble = (friend) => ({
                     type: 'postback',
                     label: '新增口頭禪',
                     data: `action=add_catchphrase&id=${friend._id}`,
-                    displayText: `我想新增口頭禪`
-                }
-            }
+                    displayText: '我想新增口頭禪',
+                },
+            },
         ],
-        flex: 0
+        flex: 0,
     },
     styles: {
         footer: {
-            separator: true
-        }
-    }
+            separator: true,
+        },
+    },
 });
 
 export const friendInfoCard = (friend) => generateFriendBubble(friend);
@@ -160,7 +160,7 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
     const startIndex = (currentPage - 1) * pageSize;
     const paginatedFriends = friends.slice(startIndex, startIndex + pageSize);
 
-    const friendBubbles = paginatedFriends.map(friend => generateFriendBubble(friend));
+    const friendBubbles = paginatedFriends.map((friend) => generateFriendBubble(friend));
 
     if (totalPages > 1) {
         const prevPage = Math.max(1, currentPage - 1);
@@ -171,33 +171,34 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
                 type: 'box',
                 layout: 'horizontal',
                 contents: [
-                    currentPage !== 1 
+                    currentPage !== 1
                         ? {
-                            type: 'button',
-                            action: {
-                                type: 'postback',
-                                label: '上一頁',
-                                data: `action=page&page=${prevPage}`,
-                                displayText: `查看第 ${prevPage} 頁`
-                            },
-                            style: 'primary',
-                            height: 'sm',
-                            gravity: 'center'
-                        } : null,
+                              type: 'button',
+                              action: {
+                                  type: 'postback',
+                                  label: '上一頁',
+                                  data: `action=page&page=${prevPage}`,
+                                  displayText: `查看第 ${prevPage} 頁`,
+                              },
+                              style: 'primary',
+                              height: 'sm',
+                              gravity: 'center',
+                          }
+                        : null,
                     {
                         type: 'button',
                         action: {
                             type: 'postback',
                             label: '下一頁',
                             data: `action=page&page=${nextPage}`,
-                            displayText: `查看第 ${nextPage} 頁`
+                            displayText: `查看第 ${nextPage} 頁`,
                         },
                         style: 'primary',
                         height: 'sm',
-                        gravity: 'center'
-                    }
+                        gravity: 'center',
+                    },
                 ].filter(Boolean),
-            }
+            },
         };
         friendBubbles.push(paginationBubble);
     }
@@ -207,8 +208,8 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
         altText: `朋友列表 - 第 ${currentPage} 頁，共 ${totalPages} 頁`,
         contents: {
             type: 'carousel',
-            contents: friendBubbles
-        }
+            contents: friendBubbles,
+        },
     };
 };
 
@@ -220,7 +221,7 @@ const formatDate = (dateString, hasYear = true) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
-        
+
         if (isNaN(date.getTime())) {
             return ERROR_MESSAGES.BIRTHDAY.DATE_FORMAT_ERROR;
         }
@@ -249,9 +250,9 @@ export const birthdayCountdownCard = (friends) => ({
                 text: '🎂 生日倒數',
                 weight: 'bold',
                 size: 'xl',
-                align: 'center'
-            }
-        ]
+                align: 'center',
+            },
+        ],
     },
     body: {
         type: 'box',
@@ -266,7 +267,7 @@ export const birthdayCountdownCard = (friends) => ({
                     text: friend.name,
                     size: 'md',
                     flex: 2,
-                    wrap: true
+                    wrap: true,
                 },
                 {
                     type: 'text',
@@ -274,7 +275,7 @@ export const birthdayCountdownCard = (friends) => ({
                     size: 'sm',
                     color: '#e84d5c',
                     align: 'end',
-                    flex: 0
+                    flex: 0,
                 },
                 {
                     type: 'text',
@@ -282,16 +283,16 @@ export const birthdayCountdownCard = (friends) => ({
                     size: 'sm',
                     color: '#497ec9',
                     align: 'end',
-                    flex: 2
-                }
-            ]
-        }))
+                    flex: 2,
+                },
+            ],
+        })),
     },
     styles: {
         header: {
-            backgroundColor: '#f6e2b4'
-        }
-    }
+            backgroundColor: '#f6e2b4',
+        },
+    },
 });
 
 // 錯誤訊息卡片
@@ -306,218 +307,218 @@ export const errorCard = (message) => ({
                 text: '❌ 發生錯誤',
                 weight: 'bold',
                 size: 'lg',
-                margin: 'md'
+                margin: 'md',
             },
             {
                 type: 'text',
                 text: message,
                 wrap: true,
-                margin: 'md'
-            }
-        ]
-    }
+                margin: 'md',
+            },
+        ],
+    },
 });
 
 // 幫助卡片模板 - 朋友
 const helpCardFriend = () => ({
-    "type": "bubble",
-    "body": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "md",
-        "contents": [
+    type: 'bubble',
+    body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        contents: [
             {
-                "type": "text",
-                "text": "👥 朋友相關指令",
-                "weight": "bold",
-                "size": "xl",
-                "align": "center"
+                type: 'text',
+                text: '👥 朋友相關指令',
+                weight: 'bold',
+                size: 'xl',
+                align: 'center',
             },
             {
-                "type": "separator",
-                "margin": "lg"
+                type: 'separator',
+                margin: 'lg',
             },
             {
-                "type": "text",
-                "text": "• 查看所有朋友",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• 查看所有朋友',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：查看所有朋友",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
+                type: 'text',
+                text: '範例：查看所有朋友',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• [名字] 查看這個朋友",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• [名字] 查看這個朋友',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：小明 查看這個朋友",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
+                type: 'text',
+                text: '範例：小明 查看這個朋友',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• 查看隨機朋友",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• 查看隨機朋友',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：查看隨機朋友",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
+                type: 'text',
+                text: '範例：查看隨機朋友',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• [名字] 新增興趣 [興趣]",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• [名字] 新增興趣 [興趣]',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：小明 新增興趣 睡覺",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
+                type: 'text',
+                text: '範例：小明 新增興趣 睡覺',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• [名字] 新增口頭禪 [口頭禪]",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• [名字] 新增口頭禪 [口頭禪]',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：小明 新增口頭禪 蛤",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
-            }
-        ]
-    }
+                type: 'text',
+                text: '範例：小明 新增口頭禪 蛤',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
+            },
+        ],
+    },
 });
 
 // 幫助卡片模板 - 生日
 const helpCardBirthday = () => ({
-    "type": "bubble",
-    "body": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "md",
-        "contents": [
+    type: 'bubble',
+    body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        contents: [
             {
-                "type": "text",
-                "text": "🎂 生日相關指令",
-                "weight": "bold",
-                "size": "xl",
-                "align": "center"
+                type: 'text',
+                text: '🎂 生日相關指令',
+                weight: 'bold',
+                size: 'xl',
+                align: 'center',
             },
             {
-                "type": "separator",
-                "margin": "lg"
+                type: 'separator',
+                margin: 'lg',
             },
             {
-                "type": "text",
-                "text": "• 今天生日的朋友",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• 今天生日的朋友',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：今天生日的朋友",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
+                type: 'text',
+                text: '範例：今天生日的朋友',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• 生日倒數",
-                "size": "sm",
-                "color": "#497ec9",
-                "wrap": true,
-                "weight": "bold"
+                type: 'text',
+                text: '• 生日倒數',
+                size: 'sm',
+                color: '#497ec9',
+                wrap: true,
+                weight: 'bold',
             },
             {
-                "type": "text",
-                "text": "範例：生日倒數",
-                "size": "sm",
-                "color": "#999999",
-                "wrap": true
-            }
-        ]
-    }
+                type: 'text',
+                text: '範例：生日倒數',
+                size: 'sm',
+                color: '#999999',
+                wrap: true,
+            },
+        ],
+    },
 });
- 
+
 // 幫助卡片模板 - 快速指令
 const helpCardQuick = () => ({
-    "type": "bubble",
-    "body": {
-        "type": "box",
-        "layout": "vertical",
-        "spacing": "md",
-        "contents": [
+    type: 'bubble',
+    body: {
+        type: 'box',
+        layout: 'vertical',
+        spacing: 'md',
+        contents: [
             {
-                "type": "text",
-                "text": "📌 快速指令縮寫",
-                "weight": "bold",
-                "size": "xl",
-                "align": "center"
+                type: 'text',
+                text: '📌 快速指令縮寫',
+                weight: 'bold',
+                size: 'xl',
+                align: 'center',
             },
             {
-                "type": "separator",
-                "margin": "lg"
+                type: 'separator',
+                margin: 'lg',
             },
             {
-                "type": "text",
-                "text": "• ls = 查看所有朋友",
-                "size": "sm",
-                "color": "#666666",
-                "wrap": true
+                type: 'text',
+                text: '• ls = 查看所有朋友',
+                size: 'sm',
+                color: '#666666',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• r = 查看隨機朋友",
-                "size": "sm",
-                "color": "#666666",
-                "wrap": true
+                type: 'text',
+                text: '• r = 查看隨機朋友',
+                size: 'sm',
+                color: '#666666',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• b = 今天生日的朋友",
-                "size": "sm",
-                "color": "#666666",
-                "wrap": true
+                type: 'text',
+                text: '• b = 今天生日的朋友',
+                size: 'sm',
+                color: '#666666',
+                wrap: true,
             },
             {
-                "type": "text",
-                "text": "• bc = 生日倒數",
-                "size": "sm",
-                "color": "#666666",
-                "wrap": true
-            }
-        ]
-    }
+                type: 'text',
+                text: '• bc = 生日倒數',
+                size: 'sm',
+                color: '#666666',
+                wrap: true,
+            },
+        ],
+    },
 });
 
 export const helpCard = () => {
@@ -526,7 +527,7 @@ export const helpCard = () => {
         altText: '使用說明',
         contents: {
             type: 'carousel',
-            contents: [helpCardFriend(), helpCardBirthday(), helpCardQuick()]
-        }
+            contents: [helpCardFriend(), helpCardBirthday(), helpCardQuick()],
+        },
     };
 };
