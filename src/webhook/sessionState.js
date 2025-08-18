@@ -1,4 +1,3 @@
-
 // 允許從環境變數設定預設 TTL（秒），預設 60 秒
 const { SESSION_TTL_SECONDS = '60' } = process.env;
 const DEFAULT_TTL = parseInt(SESSION_TTL_SECONDS, 10) || 60;

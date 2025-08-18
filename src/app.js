@@ -20,7 +20,7 @@ app.post('/webhook', middleware(config), async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-  });
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
