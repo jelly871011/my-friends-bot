@@ -1,5 +1,8 @@
 export class AppError extends Error {
-    constructor(message, statusCode = 500, details = []) {
+    statusCode: number;
+    details: any[];
+
+    constructor(message: string | undefined, statusCode = 500, details: any[] = []) {
         super(message);
         this.statusCode = statusCode;
         this.details = details;

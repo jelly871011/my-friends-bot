@@ -1,31 +1,35 @@
 import { commands, commandAliases, noNameCommands } from './commonData.js';
 import { ERROR_MESSAGES } from './messages.js';
 
+// Type assertion for command aliases
+const commandAliasesTyped: { [key: string]: string } = commandAliases;
+
 // 格式: [名字] 動作 [參數1, 參數2, ...]
 const COMMAND_REGEX = /^\s*((\S+)\s+)?(\S+)(?:\s+([\s\S]*))?$/;
 
 const normalizedCommandCache = new Map();
 
-const normalizeCommand = (command) => {
+const normalizeCommand = (command: string) => {
     if (!command) return null;
 
     if (normalizedCommandCache.has(command)) {
         return normalizedCommandCache.get(command);
     }
 
-    const normalized = commandAliases[command.toLowerCase()] || command;
+    const cmd = command.toLowerCase();
+    const normalized = commandAliasesTyped[cmd] || command;
 
     normalizedCommandCache.set(command, normalized);
 
     return normalized;
 };
 
-const isValidCommand = (action) => {
+const isValidCommand = (action: string) => {
     const normalizedCommand = normalizeCommand(action);
     return commands.includes(normalizedCommand);
 };
 
-export const isCommand = (text) => {
+export const isCommand = (text: string) => {
     if (!text || typeof text !== 'string') return false;
 
     const match = text.trim().match(COMMAND_REGEX);
@@ -37,7 +41,7 @@ export const isCommand = (text) => {
     return action ? isValidCommand(action) : false;
 };
 
-export const parseCommand = (text) => {
+export const parseCommand = (text: string) => {
     if (!text || typeof text !== 'string') {
         return { message: ERROR_MESSAGES.GENERAL.INVALID_INPUT };
     }

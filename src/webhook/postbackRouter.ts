@@ -3,21 +3,29 @@ import { friendsListCarousel } from '../utils/flexTemplates.js';
 import { ERROR_MESSAGES } from '../utils/messages.js';
 import { setPendingAction } from './sessionState.js';
 
-export const parsePostbackData = (data) => {
+export const parsePostbackData = (data: string): Record<string, string> => {
     if (!data || typeof data !== 'string') return {};
 
     const params = new URLSearchParams(data);
-    const obj = {};
+    const obj: Record<string, string> = {};
 
     for (const [k, v] of params) {
-        obj[k] = obj[k] ? [].concat(obj[k], v) : v;
+        obj[k] = v;
     }
 
     return obj;
 };
 
 // 共用：處理新增興趣/口頭禪的 pending 設定與提示訊息
-const handleAddFieldPending = async ({ action, id, userId }) => {
+const handleAddFieldPending = async ({
+    action,
+    id,
+    userId,
+}: {
+    action: string;
+    id: string;
+    userId: string;
+}) => {
     const addInterest = action === 'add_interest';
 
     if (!id) {
@@ -57,7 +65,15 @@ const handleAddFieldPending = async ({ action, id, userId }) => {
     };
 };
 
-export const handlePostback = async (postback, source) => {
+interface Postback {
+    data?: string;
+}
+
+interface Source {
+    userId?: string;
+}
+
+export const handlePostback = async (postback: Postback, source: Source) => {
     if (!postback) return null;
 
     try {
@@ -72,14 +88,17 @@ export const handlePostback = async (postback, source) => {
             const friends = await getFriends();
 
             if (!friends || !friends.length) {
-                return { type: 'text', text: ERROR_MESSAGES.FRIEND.LIST_EMPTY };
+                return {
+                    type: 'text',
+                    text: ERROR_MESSAGES.FRIEND.NO_FRIENDS,
+                };
             }
 
-            return friendsListCarousel(friends, page);
+            return friendsListCarousel(friends as any, page);
         }
 
         if (action === 'add_interest' || action === 'add_catchphrase') {
-            return handleAddFieldPending({ action, id: params.id, userId });
+            return handleAddFieldPending({ action, id: params.id, userId: userId ?? '' });
         }
 
         return null;

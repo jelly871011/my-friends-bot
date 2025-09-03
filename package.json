@@ -4,7 +4,7 @@
     "type": "module",
     "main": "index.js",
     "scripts": {
-        "start": "node src/app.js",
+        "start": "node dist/app.js",
         "dev": "tsx watch src/app.ts",
         "build": "tsc",
         "lint": "eslint . --ext .ts,.js --fix",
@@ -42,6 +42,7 @@
     "devDependencies": {
         "@eslint/config-array": "^0.21.0",
         "@eslint/object-schema": "^2.1.6",
+        "@types/date-fns": "^2.6.3",
         "@types/express": "^5.0.3",
         "@types/node": "^24.3.0",
         "@typescript-eslint/eslint-plugin": "^8.40.0",

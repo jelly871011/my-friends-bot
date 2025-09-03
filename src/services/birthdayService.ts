@@ -37,7 +37,7 @@ export const getBirthdayCountdown = async () => {
             }
 
             // 計算天數差
-            const diffTime = nextBirthday - today;
+            const diffTime = nextBirthday.getTime() - today.getTime();
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
             return {
@@ -47,7 +47,7 @@ export const getBirthdayCountdown = async () => {
                 nextBirthday: `${nextBirthday.getFullYear()}年${nextBirthday.getMonth() + 1}月${nextBirthday.getDate()}日`,
             };
         })
-        .filter(Boolean) // 過濾掉無效的生日記錄
+        .filter((friend): friend is NonNullable<typeof friend> => Boolean(friend))
         .sort((a, b) => a.daysUntil - b.daysUntil); // 按天數升序排序
 
     return upcomingBirthdays;

@@ -29,7 +29,7 @@ const specialKeywords = ['阿卡', 'A CA', '七人幫'];
 
 const greetingKeywords = ['你好', 'hi', '嗨', '早安', '午安', '晚安'];
 
-const getRandomIndex = (length) => {
+const getRandomIndex = (length: number) => {
     return Math.floor(Math.random() * length);
 };
 
@@ -39,7 +39,7 @@ const getRandomResponse = (text = '') => {
     return response.replace(/{text}/g, text);
 };
 
-const keywordResponse = (text) => {
+const keywordResponse = (text: string) => {
     if (specialKeywords.some((keyword) => text.includes(keyword))) {
         return specialResponses[getRandomIndex(specialResponses.length)];
     }

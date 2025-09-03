@@ -1,7 +1,17 @@
 import { ERROR_MESSAGES, NOT_SET } from './messages.js';
 
 // 朋友資訊卡片模板
-export const generateFriendBubble = (friend) => ({
+export interface FriendInfo {
+    _id: string;
+    name?: string;
+    description?: string;
+    birthday?: string;
+    profileImageName?: string;
+    interests?: string[];
+    catchphrases?: string[];
+}
+
+export const generateFriendBubble = (friend: FriendInfo) => ({
     type: 'bubble',
     hero: {
         type: 'image',
@@ -151,10 +161,10 @@ export const generateFriendBubble = (friend) => ({
     },
 });
 
-export const friendInfoCard = (friend) => generateFriendBubble(friend);
+export const friendInfoCard = (friend: FriendInfo) => generateFriendBubble(friend);
 
 // 朋友列表輪播卡片
-export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
+export const friendsListCarousel = (friends: FriendInfo[], page = 1, pageSize = 5) => {
     const totalPages = Math.ceil(friends.length / pageSize);
     const currentPage = Math.min(Math.max(1, page), totalPages);
     const startIndex = (currentPage - 1) * pageSize;
@@ -200,7 +210,7 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
                 ].filter(Boolean),
             },
         };
-        friendBubbles.push(paginationBubble);
+        friendBubbles.push(paginationBubble as any);
     }
 
     return {
@@ -213,7 +223,7 @@ export const friendsListCarousel = (friends, page = 1, pageSize = 5) => {
     };
 };
 
-const formatDate = (dateString, hasYear = true) => {
+const formatDate = (dateString: string, hasYear = true) => {
     if (!dateString) return NOT_SET;
 
     try {
@@ -239,7 +249,12 @@ const formatDate = (dateString, hasYear = true) => {
 };
 
 // 生日倒數卡片
-export const birthdayCountdownCard = (friends) => ({
+export interface BirthdayFriend {
+    name: string;
+    birthday?: string;
+    daysUntil: number;
+}
+export const birthdayCountdownCard = (friends: BirthdayFriend[]) => ({
     type: 'bubble',
     header: {
         type: 'box',
@@ -296,7 +311,7 @@ export const birthdayCountdownCard = (friends) => ({
 });
 
 // 錯誤訊息卡片
-export const errorCard = (message) => ({
+export const errorCard = (message: string) => ({
     type: 'bubble',
     body: {
         type: 'box',

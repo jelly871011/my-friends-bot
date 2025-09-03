@@ -1,6 +1,19 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 
-const friendSchema = new mongoose.Schema(
+export interface IFriend extends Document {
+    _id: Types.ObjectId;
+    name: string;
+    description?: string | null;
+    interests: string[];
+    catchphrases: string[];
+    birthday: Date | null;
+    profileImageName?: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const friendSchema = new mongoose.Schema<IFriend>(
+
     {
         name: {
             type: String,
@@ -46,6 +59,6 @@ const friendSchema = new mongoose.Schema(
     { timestamps: true },
 );
 
-const Friend = mongoose.model('Friend', friendSchema);
+const Friend = mongoose.model<IFriend>('Friend', friendSchema);
 
 export default Friend;

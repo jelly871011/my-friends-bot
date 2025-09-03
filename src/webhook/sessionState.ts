@@ -5,13 +5,20 @@ const state = new Map();
 
 const now = () => Date.now();
 
-const isExpired = (entry) => {
+const isExpired = (entry: { expireAt: number }) => {
     if (!entry || typeof entry.expireAt !== 'number') return true;
 
     return now() >= entry.expireAt;
 };
 
-export const setPendingAction = (userId, payload) => {
+export const setPendingAction = (
+    userId: string,
+    payload: {
+        action: string;
+        friendId: string;
+        friendName: string;
+    },
+) => {
     if (!userId || !payload) return;
 
     const ttlSec = DEFAULT_TTL;
@@ -20,7 +27,7 @@ export const setPendingAction = (userId, payload) => {
     state.set(userId, { payload, expireAt });
 };
 
-export const getPendingAction = (userId) => {
+export const getPendingAction = (userId: string) => {
     if (!userId) return null;
 
     const entry = state.get(userId);
@@ -36,7 +43,7 @@ export const getPendingAction = (userId) => {
     return entry.payload;
 };
 
-export const clearPendingAction = (userId) => {
+export const clearPendingAction = (userId: string) => {
     if (!userId) return;
 
     state.delete(userId);

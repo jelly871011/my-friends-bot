@@ -1,49 +1,41 @@
 {
     "compilerOptions": {
-        "noEmitOnError": false,
-        /* 基本選項 */
         "target": "ES2022",
         "module": "NodeNext",
         "moduleResolution": "NodeNext",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "strict": false,
-        "noImplicitAny": false,
+        "strict": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         
-        /* 模組解析 */
-        "baseUrl": ".",
-        "paths": {
-            "@/*": ["src/*"]
-        },
-        
-        /* 輸出控制 */
         "outDir": "./dist",
         "rootDir": "./src",
         "declaration": true,
         "sourceMap": true,
-        "removeComments": false,
-
-        /* 其他 */
+        "removeComments": true,
+        "noEmitOnError": true,
+        
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "noEmit": false,
         
-        /* 類型檢查 */
-        "strictNullChecks": false,
-        "strictFunctionTypes": false,
-        "strictBindCallApply": false,
-        "noImplicitThis": false,
-        "alwaysStrict": false,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
         
-        /* 模塊解析 */
+        /* JavaScript Support */
         "allowJs": true,
-        "checkJs": false,
-        "noImplicitReturns": false,
-        "noFallthroughCasesInSwitch": false,
-        "noUnusedLocals": false,
-        "noUnusedParameters": false
+        "checkJs": true
     },
     "include": ["src/**/*"],
     "exclude": [
